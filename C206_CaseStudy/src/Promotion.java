@@ -1,13 +1,13 @@
 
 public class Promotion extends Item{
-private int opticalZoom;
+private String opticalZoom;
 
-	public Promotion(String assetTag, String description, int opticalZoom) {
+	public Promotion(String assetTag, String description) {
 		super(assetTag, description);
-		this.opticalZoom = opticalZoom;
+		
 	}
 
-	public int getOpticalZoom() {
+	public String getOpticalZoom() {
 		return opticalZoom;
 	}
 	
