@@ -6,7 +6,7 @@ public class ResourceCentre {
 
 		ArrayList<Stall> stallList = new ArrayList<Stall>();
 		ArrayList<Order> orderList = new ArrayList<Order>();
-		ArrayList<Ingridients> ingridientsList = new ArrayList<Ingridients>();
+		ArrayList<Ingredient> ingredientList = new ArrayList<Ingredient>();
 		ArrayList<Promotion> promotionList = new ArrayList<Promotion>();
 
 		stallList.add(new Stall("Stall1", "Malay STall", 35));
@@ -15,12 +15,14 @@ public class ResourceCentre {
 		orderList.add(new Order("CSO1", "Rice", 10));
 		orderList.add(new Order("CSO2", "Noodle", 10));
 		orderList.add(new Order("CSO3", "Porriage", 10));
-		ingredientList.add(new Ingredient("CSI01", "Rice", "1"));
-		ingredientList.add(new Ingredient("CSI01", "Noodle", "1"));
-		ingredientList.add(new Ingredient("CSI01", "Tomato", "1"));
-		promotionList.add(new Promotion("CSP01", "", "1"));
-		promotionList.add(new Promotion("CSP02", "", "1"));
-		promotionList.add(new Promotion("CSP03", "", "1"));
+
+		ingredientList.add(new Ingredient("CSI01", "Rice"));
+		ingredientList.add(new Ingredient("CSI01", "Noodle"));
+		ingredientList.add(new Ingredient("CSI01", "Tomato"));
+		
+		promotionList.add(new Promotion("CSP01", "One"));
+		promotionList.add(new Promotion("CSP02", "One"));
+		promotionList.add(new Promotion("CSP03", "One"));
 
 		int option = 0;
 
@@ -33,79 +35,58 @@ public class ResourceCentre {
 				// View all items
 				ResourceCentre.viewAllStall(stallList);
 				ResourceCentre.viewAllOrder(orderList);
-				ResourceCentre.viewAllIngredient(orderList);
-				ResourceCentre.viewAllPromotion(orderList);
+				ResourceCentre.viewAllIngredient(ingredientList);
+				ResourceCentre.viewAllPromotion(promotionList);
 
 			} else if (option == 2) {
 				// Add a new item
 				ResourceCentre.setHeader("ADD");
 				ResourceCentre.setHeader("ITEM TYPES");
-				System.out.println("1. Camcorder");
-				System.out.println("2. Chromebook");
+				System.out.println("1. Stall");
+				System.out.println("2. Order");
+				System.out.println("3. Ingredient");
+				System.out.println("4. Promotion");
 
 				int itemType = Helper.readInt("Enter option to select item type > ");
 
 				if (itemType == 1) {
-					// Add a camcorder
-					Camcorder cc = inputCamcorder();
-					ResourceCentre.addCamcorder(camcorderList, cc);
-					System.out.println("Camcorder added");
+					// Add a Stall
+					Stall ss = inputStall();
+					ResourceCentre.addStall1(stallList, ss);
+					System.out.println("Stall added");
 
 				} else if (itemType == 2) {
-					// Add a Chromebook
-					Chromebook cb = inputChromebook();
-					ResourceCentre.addChromebook(chromebookList, cb);
-					System.out.println("Chromebook added");
+					// Add a Order
+					Order oo = inputOrder();
+					ResourceCentre.addOrder(orderList, oo);
+					System.out.println("Order added");
 
-				} else {
-					System.out.println("Invalid type");
+				} else if (itemType == 3) {
+					// Add Ingredient
+					Ingredient ii = inputIngredient();
+					ResourceCentre.addIngredient(ingredientList, ii);
+					System.out.println("Ingredient added");
+
+				}
+				//test
+
+				else if (itemType == 4) {
+					// Add Promotion
+					Promotion pp = inputPromotion();
+					ResourceCentre.addPromotion(promotionList, pp);
+					System.out.println("Promotion added");
+
 				}
 
-			} else if (option == 3) {
-				// Loan item
-				ResourceCentre.setHeader("LOAN");
-				ResourceCentre.setHeader("ITEM TYPES");
-				System.out.println("1. Camcorder");
-				System.out.println("2. Chromebook");
-
-				int itemType = Helper.readInt("Enter option to select item type > ");
-
-				if (itemType == 1) {
-					// Loan camcorder
-					ResourceCentre.loanCamcorder(camcorderList);
-				} else if (itemType == 2) {
-					// Loan Chromebook
-					ResourceCentre.loanChromebook(chromebookList);
+				else if (option == 5) {
+					System.out.println("Bye!");
 				} else {
-					System.out.println("Invalid type");
+					System.out.println("Invalid option");
 				}
 
-			} else if (option == 4) {
-				// Return item
-				ResourceCentre.setHeader("RETURN");
-				ResourceCentre.setHeader("ITEM TYPES");
-				System.out.println("1. Camcorder");
-				System.out.println("2. Chromebook");
-
-				int itemType = Helper.readInt("Enter option to select item type > ");
-				if (itemType == 1) {
-					// Return camcorder
-					ResourceCentre.returnCamcorder(camcorderList);
-				} else if (itemType == 2) {
-					// Return Chromebook
-					ResourceCentre.returnChromebook(chromebookList);
-				} else {
-					System.out.println("Invalid type");
-				}
-
-			} else if (option == 5) {
-				System.out.println("Bye!");
-			} else {
-				System.out.println("Invalid option");
 			}
 
 		}
-
 	}
 
 	public static void menu() {
@@ -144,8 +125,8 @@ public class ResourceCentre {
 
 			output += String.format("%-10s %-30s %-10s %-10s %-20d\n", stallList.get(i).getAssetTag(),
 					stallList.get(i).getDescription(),
-					ResourceCentre.showAvailability(stallList.get(i).getIsAvailable()),
-					stallList.get(i).getDueDate(), stallList.get(i).getOpticalZoom());
+					ResourceCentre.showAvailability(stallList.get(i).getIsAvailable()), stallList.get(i).getDueDate(),
+					stallList.get(i).getOpticalZoom());
 		}
 		return output;
 	}
@@ -157,6 +138,7 @@ public class ResourceCentre {
 		output += retrieveAllStall(stallList);
 		System.out.println(output);
 	}
+
 	public static String retrieveAllOrder(ArrayList<Order> orderList) {
 		String output = "";
 
@@ -164,8 +146,8 @@ public class ResourceCentre {
 
 			output += String.format("%-10s %-30s %-10s %-10s %-20d\n", orderList.get(i).getAssetTag(),
 					orderList.get(i).getDescription(),
-					ResourceCentre.showAvailability(orderList.get(i).getIsAvailable()),
-					orderList.get(i).getDueDate(), orderList.get(i).getOpticalZoom());
+					ResourceCentre.showAvailability(orderList.get(i).getIsAvailable()), orderList.get(i).getDueDate(),
+					orderList.get(i).getOpticalZoom());
 		}
 		return output;
 	}
@@ -177,6 +159,7 @@ public class ResourceCentre {
 		output += retrieveAllOrder(orderList);
 		System.out.println(output);
 	}
+
 	public static String retrieveAllIngredient(ArrayList<Ingredient> ingredientList) {
 		String output = "";
 
@@ -185,7 +168,7 @@ public class ResourceCentre {
 			output += String.format("%-10s %-30s %-10s %-10s %-20d\n", ingredientList.get(i).getAssetTag(),
 					ingredientList.get(i).getDescription(),
 					ResourceCentre.showAvailability(ingredientList.get(i).getIsAvailable()),
-					ingredientList.get(i).getDueDate(), ingredientList.get(i).getOpticalZoom());
+					ingredientList.get(i).getDueDate(), ingredientList.get(i).getId());
 		}
 		return output;
 	}
@@ -198,35 +181,84 @@ public class ResourceCentre {
 		System.out.println(output);
 	}
 
+	public static String retrieveAllPromotion(ArrayList<Promotion> promotionList) {
+		String output = "";
+
+		for (int i = 0; i < promotionList.size(); i++) {
+
+			output += String.format("%-10s %-30s %-10s %-10s %-20d\n", promotionList.get(i).getAssetTag(),
+					promotionList.get(i).getDescription(),
+					ResourceCentre.showAvailability(promotionList.get(i).getIsAvailable()),
+					promotionList.get(i).getDueDate(), promotionList.get(i).getAssetTag());
+		}
+		return output;
+	}
+
+	public static void viewAllPromotion(ArrayList<Promotion> promotionList) {
+		ResourceCentre.setHeader("Stall LIST");
+		String output = String.format("%-10s %-30s %-10s %-10s %-20s\n", "ASSET TAG", "DESCRIPTION", "AVAILABLE",
+				"DUE DATE", "OPTICAL ZOOM");
+		output += retrieveAllPromotion(promotionList);
+		System.out.println(output);
+	}
 
 	// ================================= Option 2 Add an item (CRUD - Create)
 	// =================================
-	public static Camcorder inputCamcorder() {
-		String tag = Helper.readString("Enter asset tag > ");
-		String description = Helper.readString("Enter description > ");
-		int zoom = Helper.readInt("Enter optical zoom > ");
 
-		Camcorder cc = new Camcorder(tag, description, zoom);
-		return cc;
+	public static void addStall1(ArrayList<Stall> stallList, Stall ss) {
+
+		stallList.add(ss);
 
 	}
 
-	public static void addCamcorder(ArrayList<Camcorder> camcorderList, Camcorder cc) {
+	public static void addOrder(ArrayList<Order> orderList, Order oo) {
 
-		camcorderList.add(cc);
+		orderList.add(oo);
 
 	}
 
-	public static Chromebook inputChromebook() {
-		Chromebook cb = null;
+	public static void addIngredient(ArrayList<Ingredient> ingredientList, Ingredient ii) {
+
+		ingredientList.add(ii);
+
+	}
+
+	public static void addPromotion(ArrayList<Promotion> promotionList, Promotion pp) {
+
+		promotionList.add(pp);
+
+	}
+
+	public static Stall inputStall() {
+		Stall ss = null;
 		// write your code here
 
-		return cb;
+		return ss;
 
 	}
 
-	public static void addChromebook(ArrayList<Chromebook> chromebookList, Chromebook cb) {
+	public static Order inputOrder() {
+		Order oo = null;
 		// write your code here
+
+		return oo;
+
+	}
+
+	public static Ingredient inputIngredient() {
+		Ingredient ii = null;
+		// write your code here
+
+		return ii;
+
+	}
+
+	public static Promotion inputPromotion() {
+		Promotion pp = null;
+		// write your code here
+
+		return pp;
+
 	}
 
 	// ================================= Option 3 Delete (CRUD - Update)
@@ -242,4 +274,41 @@ public class ResourceCentre {
 		}
 		return isDeleted;
 	}
+
+	public static boolean doDeleteOrder(ArrayList<Order> orderList, String id) {
+		boolean isDeleted = false;
+
+		for (int i = 0; i < orderList.size(); i++) {
+			if (id.equalsIgnoreCase(orderList.get(i).getAssetTag())) {
+
+				isDeleted = true;
+			}
+		}
+		return isDeleted;
+	}
+
+	public static boolean doDeleteIngredient(ArrayList<Ingredient> ingredientList, String id) {
+		boolean isDeleted = false;
+
+		for (int i = 0; i < ingredientList.size(); i++) {
+			if (id.equalsIgnoreCase(ingredientList.get(i).getAssetTag())) {
+
+				isDeleted = true;
+			}
+		}
+		return isDeleted;
+	}
+
+	public static boolean doDeletePromotion(ArrayList<Promotion> promotionList, String id) {
+		boolean isDeleted = false;
+
+		for (int i = 0; i < promotionList.size(); i++) {
+			if (id.equalsIgnoreCase(promotionList.get(i).getAssetTag())) {
+
+				isDeleted = true;
+			}
+		}
+		return isDeleted;
+	}
 }
+//
